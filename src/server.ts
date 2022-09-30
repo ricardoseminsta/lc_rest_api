@@ -3,6 +3,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import apiRoutes from './routes/api';
+import gameRoutes from './routes/games'
 
 dotenv.config();
 
@@ -13,9 +14,10 @@ server.use(cors());
 server.use(express.static(path.join(__dirname, '../public')));
 server.use(express.urlencoded({ extended: true }));
 
-server.get('/ping', (req: Request, res: Response) => res.json({ pong: true }));
+//server.get('/ping', (req: Request, res: Response) => res.json({ pong: true }));
 
 server.use(apiRoutes);
+server.use(gameRoutes);
 
 server.use((req: Request, res: Response) => {
     res.status(404);
@@ -29,4 +31,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 }
 server.use(errorHandler);
 
-server.listen(process.env.PORT);
+server.listen(process.env.PORT, () => {
+    console.log('server listening on port ' + process.env.PORT);
+    
+});
